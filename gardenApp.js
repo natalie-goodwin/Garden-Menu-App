@@ -56,117 +56,127 @@ position of the crop in the array */
     
 //-------------------------------------------------------------------------------------------
 
-// class Menu {
-//    constructor() { 
-//         this.teams = []; 
-//         this.selectedTeam = null;    } 
+class Menu {
+    constructor() {
+        this.gardens = []; /*empty array to hold all gardens */
+        this.selectedGarden = null; /*set to null because the menu opens with no available garden value */
+    }
 
-//    start() { 
-//         let selection = this.showMainMenuOptions(); 
-//         while (selection != 0){ 
-//             switch (selection) {
-//                 case '1': 
-//                     this.createTeam(); 
-//                     break;
-//                 case '2':
-//                     this.viewTeam();
-//                     break;
-//                 case '3': 
-//                     this.deleteTeam();
-//                     break;
-//                 case '4':
-//                     this.displayTeams();
-//                     break;
-//                 default: 
-//                     selection = 0; 
-//             }
+    start() { /*method to start the menu app */
+        let selection = this.showMainMenuOptions(); /*at start of app, will show the main menu options*/
+            while (selection != 0) { /*this means that as long as the user does not select 0, 
+            one of the below switch options will occur */
+                switch (selection) {
+                    case '1':
+                        this.createGarden();
+                        break;
+                    case '2':
+                        this.viewGarden();
+                        break;
+                    case '3':
+                        this.deleteGarden();
+                        break;
+                    case '4': 
+                        this.displayGardens();
+                        break;
+                    default: 
+                        selection = 0;
+                }
 
-//             selection = this.showMainMenuOptions();
-//         }
+                selection = this.showMainMenuOptions();
+            }
 
-//         alert('Goodbye!');
-//     }
+            alert('Goodbye!'); /*if user selects 0, the app closes */
+    }
 
-//     showMainMenuOptions() { 
-//         return prompt(`   
-//         0) exit
-//         1) create new team
-//         2) view team
-//         3) delete team
-//         4) display all teams
-//         `);
-//     }
+    showMainMenuOptions() { /*when this method is started, the screen will show the following prompt to users */ 
+            return prompt(`
+            0) exit
+            1) create new garden
+            2) view garden
+            3) delete garden
+            4) display all gardens
+            `)
+    }
+   
+    showGardenMenuOptions(gardenInfo) { /*this method is activated when user tries to create a garden; the user
+    is prompted to do one of the following: */
+        return prompt (`
+        0) back
+        1) create crop
+        2) delete crop
+        ---------------------
+        ${gardenInfo}  
+        `);   /*gardenInfo will list the name of the crop and rows */
+    }
 
-//     showTeamMenuOptions(teamInfo) {
-//         return prompt (`
-//         0) back
-//         1) create player
-//         2) delete player
-//         ---------------------
-//         ${teamInfo}
-//         `);
-//     }
+    displayGardens() {
+        let gardenString = ''; /*this will display each garden with an index number and the garden name */
+        for (let i = 0; i < this.gardens.length; i++) { /*iterates through the list of available gardens 
+        and displays each with an index number*/
+            gardenString += i + ')' + this.gardens[i].name + '\n';
+        }
 
-//     displayTeams() { 
-//         let teamString = '';
-//         for (let i = 0; i < this.teams.length; i++) {
-//           teamString += i + ') ' + this.teams[i].name + '\n';  
-//         }
+        alert(gardenString);
+    }
 
-//         alert(teamString); 
-//     }
+    createGarden() {/*prompt user to enter name for new garden; pushes garden name into the array at top of
+    Menu class */
+        let name = prompt('Enter name for new garden:');
+        this.gardens.push(new Garden(name)); 
+    }
 
-//     createTeam() {
-//         let name = prompt('Enter name for new team:');
-//         this.teams.push(new Team(name));
-//     }
+    viewGarden() { /*method to view garden by index number*/
+        let index = prompt('Enter the index of the garden you wish to view:');
+        if (index > -1 && index < this.gardens.length) { /*if user selects an index between 0 and 
+        maximum garden index number, the user can view the selected garden by index  */
+            this.selectedGarden = this.gardens[index];
 
-//     viewTeam() {
-//         let index = prompt ('Enter the index of the team you wish to view:');
-//         if (index > -1 && index < this.teams.length) {            
-//             this.selectedTeam = this.teams[index]; 
-           
-//             let description = 'Team Name: ' + this.selectedTeam.name + '\n';
-        
-//             for (let i = 0; i < this.selectedTeam.players.length; i++) {
-//                 description += i + ') ' + this.selectedTeam.players[i].name 
-//                     + ' - ' + this.selectedTeam.players[i].position + '\n';
-//             }
+            let description = 'Garden Name: ' + this.selectedGarden.name + '\n'; 
 
-//             let selection = this.showTeamMenuOptions(description);
-          
-//             switch (selection) {
-              
-//                 case '1':
-//                     this.createPlayer();
-//                     break; 
-//                 case '2': 
-//                     this.deletePlayer();
-//             }
-//         }
-//     }
+            for (let i = 0; i , this.selectedGarden.crops.length; i++) {
+                description += i + ')' + this.selectedGarden.crops[i].name 
+                + ' - ' + this.selectedGarden.crops[i].rows + '\n';
+            } /*iterate through the crops in a garden and list all the crops and rows for that garden  */
 
-//     deleteTeam() {
-//         let index = prompt('Enter the index of the team you wish to delete:');
-//         if (index > -1 && index < this.teams.length) {
-//             this.teams.splice(index, 1);
-//         }
-//     }
+            let selection = this.showGardenMenuOptions(description); /*when user selects an option in the garden
+             menu, the following switch results will occur */
 
-//     createPlayer() {
-//         let name = prompt('Enter name for new player:');
-//         let position = prompt('Enter position for new player:');
-//         this.selectedTeam.players.push(new Player(name, position));
-//     }
+            switch (selection) {
+                case '1': 
+                    this.createCrop();
+                    break;
+                case '2':
+                    this.deleteCrop();
+                    break;
+            }
+        }
+    }
 
-//     deletePlayer() {
-//         let index = prompt('Enter the index of the player you wish to delete:');
-//         if (index > -1 && index < this.selectedTeam.players.length) {
-//             this.selectedTeam.players.splice(index, 1); 
-//         }
-//     }
-// }
+    deleteGarden() { /*will prompt user ot enter index to delete garden. This method will then iterate through
+    index and delete garden by index accordign to length of the array*/ 
+        let index = prompt('Enter the index of the garden you wish to delete:');
+        if (index > -1 && index < this.gardens.length) {
+            this.gardens.splice(index, 1); /*will remove 1 gaden according to place in index */ 
+        }
+    }
 
-// let menu = new Menu(); 
-// menu.start();
+    createCrop() { /*prompt user to add new crop name and rows for new crop; once entered, it will be pushed to
+    crop array  */
+        let name = prompt('Enter name for new crop:');
+        let rows = prompt('Enter number of rows for planting new crop:');
+        this.selectedGarden.crops.push(new Crop(name, rows));
+    }
+
+    deleteCrop() { /*prompt user to enter index of crop; iterate through index, and delete selected crop */
+        let index = prompt('Enter the index of the crop you wish to delete:');
+                if (index > -1 && index < this.selectedGarden.crops.length) {
+                    this.selectedGarden.crops.splice(index, 1); 
+                }
+            }
+}
+
+
+let menu = new Menu(); 
+menu.start();
 
