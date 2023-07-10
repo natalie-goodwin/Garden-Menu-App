@@ -22,13 +22,13 @@ create, delete a crop
 */
 
 class Crop {
-    cosntructor(name, rows) {
+    cosntructor(name, row) {
         this.name = name;
-        this.row = rows;
+        this.row = row;
     }
 
     describe() {
-        return `${this.name} includes ${this.rows} rows`;
+        return `${this.name} includes ${this.row} rows`;
     }
 } /*this class holds crops in a garden; 'describe' is a method that returns a crop with a number of rows to be planted  */
 
@@ -126,6 +126,7 @@ class Menu {
         this.gardens.push(new Garden(name)); 
     }
 
+
     viewGarden() { /*method to view garden by index number*/
         let index = prompt('Enter the index of the garden you wish to view:');
         if (index > -1 && index < this.gardens.length) { /*if user selects an index between 0 and 
@@ -134,9 +135,9 @@ class Menu {
 
             let description = 'Garden Name: ' + this.selectedGarden.name + '\n'; 
 
-            for (let i = 0; i , this.selectedGarden.crops.length; i++) {
+            for (let i = 0; i < this.selectedGarden.crops.length; i++) {
                 description += i + ')' + this.selectedGarden.crops[i].name 
-                + ' - ' + this.selectedGarden.crops[i].rows + '\n';
+                + ' - ' + this.selectedGarden.crops[i].row + '\n';
             } /*iterate through the crops in a garden and list all the crops and rows for that garden  */
 
             let selection = this.showGardenMenuOptions(description); /*when user selects an option in the garden
@@ -164,8 +165,8 @@ class Menu {
     createCrop() { /*prompt user to add new crop name and rows for new crop; once entered, it will be pushed to
     crop array  */
         let name = prompt('Enter name for new crop:');
-        let rows = prompt('Enter number of rows for planting new crop:');
-        this.selectedGarden.crops.push(new Crop(name, rows));
+        let row = prompt('Enter number of rows for planting new crop:');
+        this.selectedGarden.crops.push(new Crop(name, row));
     }
 
     deleteCrop() { /*prompt user to enter index of crop; iterate through index, and delete selected crop */
