@@ -28,7 +28,7 @@ class Crop {
     }
 
     describe() {
-        return `${this.name} includes ${this.row} rows`;
+        return `${this.name} includes ${this.row}`;
     }
 } /*this class holds crops in a garden; 'describe' is a method that returns a crop with a number of rows to be planted  */
 
@@ -149,7 +149,6 @@ class Menu {
                     break;
                 case '2':
                     this.deleteCrop();
-                    break;
             }
         }
     }
